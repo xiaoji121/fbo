@@ -1,0 +1,16 @@
+{
+  "name": "fbo",
+  "description": "Fu Bai Officer",
+  "version": "0.0.1",
+  "homepage": "https://github.com/xiaoji121/fbo.git",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "angular-loader": "1.2.x",
+    "angular-mocks": "~1.2.x",
+    "bootstrap": "~3.1.1",
+    "angular-bootstrap": "0.11.0",
+    "html5-boilerplate": "~4.3.0"
+  }
+}
