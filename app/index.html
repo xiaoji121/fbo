@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="sampleApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="sampleApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="sampleApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="sampleApp" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html lang="en" ng-app="myFbo" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myFbo" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myFbo" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myFbo" class="no-js"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,29 +15,34 @@
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
-<body ng-controller="SampleCtrl">
-    <div ng-show="user">
-        <p>Hello, {{ user.github.username }}</p>
-        <button ng-click="auth.$unauth()">Logout</button>
-        <a href="/home">go home</a>
-    </div>
-    <div ng-hide="user">
-        <p>Welcome, please log in.</p>
-        <button ng-click="auth.$authWithOAuthPopup('github')">Login</button>
+<body ng-controller="IndexCtrl">
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="loginInfo" ng-controller="AuthCtrl">
+        <div ng-show="isLogin">
+            <p>Hello, {{ userInfo.github.username }}</p>
+            <button ng-click="logout()">Logout</button>
+            <a href="#/home">go home</a>
+            <a href="#/account">go account</a>
+        </div>
+        <div ng-hide="isLogin">
+            <p>Welcome, please log in.</p>
+            <button ng-click="login()">Login</button>
+        </div>
     </div>
 
-    <div class="view-animate-container">
-        <div ng-view class="view-animate"></div>
-    </div>
 
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
+
+    <div ng-view></div>
 
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/firebase/firebase.js"></script>
   <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
-  <script src="static/js/index.js"></script>
+    <script src="static/js/common.js"></script>
+    <script src="static/js/router.js"></script>
+    <script src="static/js/index.js"></script>
 </body>
 </html>
