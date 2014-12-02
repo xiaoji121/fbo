@@ -28,9 +28,12 @@ app.controller("AuthCtrl", ["$scope", "Auth", '$location', function($scope, Auth
 
     Auth.$onAuth(function(authData) {
         if (authData) {
+            console.log('log in ....')
+            $scope.isLogin = true;
             $location.path('/home');
         } else {
-            $location.path('/');
+            console.log('logout.....')
+            $scope.isLogin = false;
         }
     });
 
