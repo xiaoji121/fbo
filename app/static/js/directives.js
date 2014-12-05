@@ -117,7 +117,6 @@ angular.module('myFbo.directives', [])
 
             controller: function($scope) {
                 $scope.loginFbo = function(email, pass) {
-                    console.log(email ,pass);
                     $scope.err = null;
                     simpleLogin.login(email, pass)
                         .then(function(/* user */) {

@@ -1,5 +1,8 @@
 <div>
     <h1>登陆</h1>
+
+    <p class="bg-danger" ng-if="err">{{err}}</p>
+
     <form name="login" role="form">
         <div class="form-group has-feedback" ng-class="login.email.$valid ? 'has-success' : ''">
             <label for="exampleInputEmail1">邮箱地址</label>
