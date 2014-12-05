@@ -7,5 +7,15 @@
 // Declare app level module which depends on filters, and services
 angular.module('myFbo', [
     'myFbo.config',
-    'myFbo.directives'
-]);
+    'myFbo.directives',
+    'myFbo.routes',
+    'myFbo.controllers',
+    'ui.bootstrap'
+
+])
+    .run(['simpleLogin', function(simpleLogin) {
+        console.log('run'); //debug
+        var user = simpleLogin.getUser();
+
+        console.log(user);
+    }]);

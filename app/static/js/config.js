@@ -10,7 +10,7 @@ angular.module('myFbo.config', [])
     .constant('version', '0.0.1')
 
     // where to redirect users if they need to authenticate (see routeSecurity.js)
-    .constant('loginRedirectPath', '/login')
+    .constant('loginRedirectPath', '/welcome')
 
     // your Firebase data URL goes here, no trailing slash
     .constant('FBURL', 'https://fbo.firebaseio.com')
