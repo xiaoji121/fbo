@@ -7,14 +7,21 @@
 /* Controllers */
 
 angular.module('myFbo.controllers', ['firebase.utils', 'simpleLogin'])
-    .controller('HomeCtrl', ['$scope', 'fbutil', 'user', 'FBURL', function($scope, fbutil, user, FBURL) {
+
+    .controller('HomeCtrl', ['$scope', 'fbutil', 'simpleLogin', '$location', function($scope, fbutil, simpleLogin, $location) {
         $scope.syncedValue = fbutil.syncObject('syncedValue');
-        $scope.user = user;
-        $scope.FBURL = FBURL;
+        $scope.logout = function() {
+            simpleLogin.logout();
+            $location.path('/welcome');
+        };
+
+        console.log($scope.syncedValue);
+
+//        console.log($scope.user);
     }])
 
-    .controller('WelcomeCtrl', ['$scope', function($scope) {
-        console.log('welcome');
+    .controller('WelcomeCtrl', ['$scope', 'simpleLogin', function($scope, simpleLogin) {
+//        $scope.logout = simpleLogin.logout;
     }])
 
     .controller('RegisterCtrl', ['$scope', function($scope) {
@@ -31,49 +38,7 @@ angular.module('myFbo.controllers', ['firebase.utils', 'simpleLogin'])
     }])
 
     .controller('LoginCtrl', ['$scope', 'simpleLogin', '$location', function($scope, simpleLogin, $location) {
-        $scope.email = null;
-        $scope.pass = null;
-        $scope.confirm = null;
-        $scope.createMode = false;
 
-        $scope.login = function(email, pass) {
-            $scope.err = null;
-            simpleLogin.login(email, pass)
-                .then(function(/* user */) {
-                    $location.path('/account');
-                }, function(err) {
-                    $scope.err = errMessage(err);
-                });
-        };
-
-        $scope.createAccount = function() {
-            $scope.err = null;
-            if( assertValidAccountProps() ) {
-                simpleLogin.createAccount($scope.email, $scope.pass)
-                    .then(function(/* user */) {
-                        $location.path('/account');
-                    }, function(err) {
-                        $scope.err = errMessage(err);
-                    });
-            }
-        };
-
-        function assertValidAccountProps() {
-            if( !$scope.email ) {
-                $scope.err = 'Please enter an email address';
-            }
-            else if( !$scope.pass || !$scope.confirm ) {
-                $scope.err = 'Please enter a password';
-            }
-            else if( $scope.createMode && $scope.pass !== $scope.confirm ) {
-                $scope.err = 'Passwords do not match';
-            }
-            return !$scope.err;
-        }
-
-        function errMessage(err) {
-            return angular.isObject(err) && err.code? err.code : err + '';
-        }
     }])
 
     .controller('AccountCtrl', ['$scope', 'simpleLogin', 'fbutil', 'user', '$location',

@@ -7,17 +7,13 @@ angular.module('simpleLogin', ['firebase', 'firebase.utils', 'changeEmail'])
 
     // a simple wrapper on simpleLogin.getUser() that rejects the promise
     // if the user does not exists (i.e. makes user required)
-    .factory('requireUser', ['simpleLogin', '$q', function(simpleLogin, $q) {
-        return function() {
-            var user = simpleLogin.getUser();
-
-            return user ? user : $q.reject({ authRequired: true });
-        }
+    .factory('Auth', ['$firebaseAuth', 'fbutil', function($firebaseAuth, fbutil) {
+        return $firebaseAuth(fbutil.ref());
     }])
 
-    .factory('simpleLogin', ['$firebaseAuth', 'fbutil', 'createProfile', 'changeEmail', '$q', '$rootScope',
-        function($firebaseAuth, fbutil, createProfile, changeEmail, $q, $rootScope) {
-            var auth = $firebaseAuth(fbutil.ref());
+    .factory('simpleLogin', ['Auth', 'createProfile', 'changeEmail', '$q', '$rootScope',
+        function(Auth, createProfile, changeEmail, $q, $rootScope) {
+            var auth = Auth;
             var listeners = [];
 
             function statusChange() {

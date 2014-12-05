@@ -72,45 +72,66 @@ angular.module('myFbo.directives', [])
     }])
 
 
-    .directive('dtRegister', function() {
+    .directive('dtRegister', ['simpleLogin', '$location', function(simpleLogin, $location) {
         return {
             restrict: "EA",
             replace: true,
             templateUrl: 'static/tpl/register.html',
-            scope: {
-                pannelType: '='
-            },
+            controller: function($scope) {
+                $scope.password = '';
+                $scope.confirmPassword = '';
 
-            link: function (scope, element, attrs) {
-
-                scope.password = '';
-                scope.confirmPassword = '';
-
-                scope.confirmPasswordValid = function() {
-                    if (scope.password && scope.confirmPassword && scope.password === scope.confirmPassword) {
+                $scope.confirmPasswordValid = function() {
+                    if ($scope.password && $scope.confirmPassword && $scope.password === $scope.confirmPassword) {
                         return true;
                     }
 
                     return false;
                 };
+
+                $scope.createAccount = function() {
+                    simpleLogin.createAccount($scope.email, $scope.password)
+                        .then(function(/* user */) {
+                            $location.path('/home');
+                        }, function(err) {
+                            $scope.err = errMessage(err);
+                        });
+                }
             }
 
         };
-    })
 
-    .directive('dtLogin', function() {
+        function errMessage(err) {
+            return angular.isObject(err) && err.code? err.code : err + '';
+        }
+    }])
+
+    .directive('dtLogin', ['simpleLogin', '$location', function(simpleLogin, $location) {
         return {
             restrict: "EA",
             replace: true,
             templateUrl: 'static/tpl/login.html',
+            scope: {
 
-            link: function (scope, element, attrs) {
+            },
 
-                scope.password = '';
-                scope.confirmPassword = '';
-
+            controller: function($scope) {
+                $scope.loginFbo = function(email, pass) {
+                    console.log(email ,pass);
+                    $scope.err = null;
+                    simpleLogin.login(email, pass)
+                        .then(function(/* user */) {
+                            $location.path('/home');
+                        }, function(err) {
+                            $scope.err = errMessage(err);
+                        });
+                };
             }
 
         };
-    });
+
+        function errMessage(err) {
+            return angular.isObject(err) && err.code? err.code : err + '';
+        }
+    }]);
 

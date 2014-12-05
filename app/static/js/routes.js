@@ -9,16 +9,7 @@ angular.module('myFbo.routes', ['ngRoute', 'simpleLogin'])
     .constant('ROUTES', {
         '/welcome': {
             templateUrl: 'partials/welcome.html',
-            controller: 'WelcomeCtrl',
-            resolve: {
-                // forces the page to wait for this promise to resolve before controller is loaded
-                // the controller can then inject `user` as a dependency. This could also be done
-                // in the controller, but this makes things cleaner (controller doesn't need to worry
-                // about auth status or timing of displaying its UI components)
-                user: ['simpleLogin', function(simpleLogin) {
-                    return simpleLogin.getUser();
-                }]
-            }
+            controller: 'WelcomeCtrl'
         },
         '/register': {
             templateUrl: 'partials/register.html',
@@ -28,6 +19,14 @@ angular.module('myFbo.routes', ['ngRoute', 'simpleLogin'])
             templateUrl: 'partials/home.html',
             controller: 'HomeCtrl',
             authRequired: true
+//            resolve: {
+//                // controller will not be loaded until $waitForAuth resolves
+//                // Auth refers to our $firebaseAuth wrapper in the example above
+//                "currentAuth": ["Auth", function(Auth) {
+//                    // $waitForAuth returns a promise so the resolve waits for it to complete
+//                    return Auth.$waitForAuth();
+//                }]
+//            }
         },
         '/chat': {
             templateUrl: 'partials/chat.html',
@@ -62,8 +61,8 @@ angular.module('myFbo.routes', ['ngRoute', 'simpleLogin'])
         // to hack it directly onto the $routeProvider object
         $routeProvider.whenAuthenticated = function(path, route) {
             route.resolve = route.resolve || {};
-            route.resolve.user = ['requireUser', function(requireUser) {
-                return requireUser();
+            route.resolve.currentAuth = ['Auth', function(Auth) {
+                return Auth.$waitForAuth();
             }];
             $routeProvider.when(path, route);
         }
@@ -85,7 +84,7 @@ angular.module('myFbo.routes', ['ngRoute', 'simpleLogin'])
             }
         });
         // routes which are not in our map are redirected to /home
-        $routeProvider.otherwise({redirectTo: '/home'});
+        $routeProvider.otherwise({redirectTo: '/welcome'});
     }])
 
 /**
