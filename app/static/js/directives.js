@@ -77,6 +77,9 @@ angular.module('myFbo.directives', [])
             restrict: "EA",
             replace: true,
             templateUrl: 'static/tpl/register.html',
+            scope: {
+                pannelType: '='
+            },
 
             link: function (scope, element, attrs) {
 
@@ -90,6 +93,22 @@ angular.module('myFbo.directives', [])
 
                     return false;
                 };
+            }
+
+        };
+    })
+
+    .directive('dtLogin', function() {
+        return {
+            restrict: "EA",
+            replace: true,
+            templateUrl: 'static/tpl/login.html',
+
+            link: function (scope, element, attrs) {
+
+                scope.password = '';
+                scope.confirmPassword = '';
+
             }
 
         };

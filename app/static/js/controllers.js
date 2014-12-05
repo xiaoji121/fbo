@@ -18,7 +18,7 @@ angular.module('myFbo.controllers', ['firebase.utils', 'simpleLogin'])
     }])
 
     .controller('RegisterCtrl', ['$scope', function($scope) {
-        console.log('register');
+
     }])
 
     .controller('ChatCtrl', ['$scope', 'messageList', function($scope, messageList) {
