@@ -132,5 +132,21 @@ angular.module('myFbo.directives', [])
         function errMessage(err) {
             return angular.isObject(err) && err.code? err.code : err + '';
         }
+    }])
+
+    .directive('dtFbBar', ['simpleLogin', '$location', function(simpleLogin, $location) {
+        return {
+            restrict: "EA",
+            replace: true,
+            templateUrl: 'static/tpl/fb-bar.html',
+            scope: {
+
+            },
+
+            controller: function($scope) {
+
+            }
+
+        };
     }]);
 
